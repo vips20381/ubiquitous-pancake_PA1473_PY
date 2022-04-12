@@ -7,9 +7,11 @@ from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 
-#Kod
+#KOD
+
+
+#RÖR EJ
 def main():
-    print('Hello')
     return 0
 
 if __name__ == '__main__':
