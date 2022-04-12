@@ -2,6 +2,7 @@
 import sys
 import __init__
 
+
 def main():
     return 0
 

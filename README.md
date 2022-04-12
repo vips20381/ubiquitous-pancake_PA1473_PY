@@ -1,9 +1,13 @@
-# -- Replace with the name of your project --
+# Programvaruutveckling Robot Truck
 
 ## Members of the group
 -- Replace with student information --
-* Adam Svensson adv@bth.se
-* Albin Persson alo@bth.se
+* Viktor Persson : vips20@student.bth.se
+* Moltas Andreasson : MoltasAndreasson@live.se
+* Ismail Arwand : sohailarwand@gmail.com
+* Omar Osta : omarosta7@gmail.com
+* Valdemar Mansfeld : gneggg1232@gmail.com
+* Adam Dahlstedt : adam.v.dahlstedt@gmail.com
 
 ## Project Description
 -- Place a short description of the project so that the reader know what the goal of the repository is --
