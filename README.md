@@ -10,7 +10,7 @@
 * Adam Dahlstedt : adam.v.dahlstedt@gmail.com
 
 ## Project Description
--- Place a short description of the project so that the reader know what the goal of the repository is --
+Successfully make a robot forklift which fulfills the requested user stories in three different sprints.  
 
 ## User stories
 -- Extend the list with user stories. Also use the marking method for complete and incomplete user stories --
