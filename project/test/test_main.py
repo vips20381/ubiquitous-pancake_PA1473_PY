@@ -28,8 +28,8 @@ robot = DriveBase(left_motor, right_motor, wheel_diameter= 47, axle_track= 128) 
 ##Basic movement##
 def basicmove():
     # Go forward and backwards for one meter.
-    robot.straight(1000)
-    robot.straight(-1000)
+    robot.straight(100)
+    robot.straight(-100)
     # Turn clockwise by 360 degrees and back again.
     robot.turn(360)
     robot.turn(-360)
@@ -74,17 +74,23 @@ def line_follow():
 ##Plocka upp##
 
 def pickup(touch_sensor):
+    pickup = True
+    while pickup == True:
+        if touch_sensor.pressed() == True:
+            motorC.run(40)
+            robot.straight(-20)
+            motorC.run(-30) #dubbelkolla hur långt ner den ska sänka armarna
+            robot.turn(180)
+            print("Roboten har tagit upp något")
+            pickup = False
+        else:
+            print('Roboten har inte tagit upp något')
+            
 
-    if touch_sensor.pressed() == True:
-        motorC.run(10)
-        robot.straight(-20)
-        motorC.run(-30) #dubbelkolla hur långt ner den ska sänka armarna
-        robot.turn(180)
-        print("Roboten har tagit upp något")
-        
-    else:
-        print('Roboten har inte tagit upp något')
+
     #kolla så att 'pressed' är True under diverse funktioner
+    #man kan köra en while loop, som innehåller 'wait' som kör vart den ska 
+    #och samtidigt kan vi kolla om den har tappat lasten, blir dock ryckig körning
 
 #  kolla färg
 # om rätt färg:
@@ -136,5 +142,8 @@ def main():
     return 0
 
 if __name__ == '__main__':
+    basicmove()
+
     sys.exit(main())
 
+basicmove()
