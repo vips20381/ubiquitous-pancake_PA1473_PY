@@ -23,7 +23,7 @@ lift_motor = motorA
 
 obstacle_sensor = UltrasonicSensor(Port.S4)
 touch_sensor = TouchSensor(Port.S1)
-color_sensor = ColorSensor(Port.E)
+color_sensor = ColorSensor(Port.S3)
 robot = DriveBase(left_motor, right_motor, wheel_diameter= 47, axle_track= 128) # Initialize the drive base.
 
 ##Funktioner##
@@ -36,18 +36,9 @@ def height(touch):
         a = robot.straight()
         touch = True
     while touch == True:
-        motorA.run(40)
+        motorA.run(10)
         robot.straight(-(a+30))
-        robot.turn(360) #vänd ett varv
-
-#def threshold(color):
-
-    #if color == 'grön'
-       # x <= color_sensor <= y and x <= color_sensor <= y:
-    #'mörkgrön' ==
-   # 'gul' ==
-   # 'blå' == 
-   # 'röd' ==
+        robot.turn(360) #vänd ett halvt varv
 
 
 ##Följa linje##
@@ -58,8 +49,6 @@ def line_follow():
     BLACK = 9
     WHITE = 85
     threshold = (BLACK + WHITE) / 2
-
-    #threshold(color)
 
     DRIVE_SPEED = 100
     PROPORTIONAL_GAIN = 1.2
@@ -72,10 +61,19 @@ def line_follow():
         robot.drive(DRIVE_SPEED, turn_rate)
 
         wait(10)
+
+##Undvika Kollision
+        while obstacle_sensor.distance() < 400:
+            wait(10)
+            print(obstacle_sensor.distance())
+            robot.straight(-150)
+            robot.turn(120)
+
         
     
 ##Left the specified area##
 def area(color_sensor, color):
+    color = color_sensor
     if color == 'Green':
         loc = 'Warehouse'
     elif color == 'Red':
@@ -87,13 +85,12 @@ def area(color_sensor, color):
     print("Robot is currently at",loc)
 ##Plocka upp##
 
-def pickup(touch_sensor):
-
+def pickup(touch_sensor, color_sensor):
     if touch_sensor.pressed() == True:
-        motorA.run(10)
-        robot.straight(-20)
-        motorA.run(-30)
-        robot.turn(180)
+        motorA.run(200)
+        robot.straight(-50)
+        motorA.run(-200)
+        robot.turn(360)
         print("Roboten har tagit upp något")
         
     else:
@@ -101,8 +98,17 @@ def pickup(touch_sensor):
     #kolla så att 'pressed' är True under diverse funktioner
 
 
-##Undvika kollision##
+##Follow line 2##
+def lft():
+    while robot.distance() >= 1000:
+        correction = (30 - color_sensor.reflection())*2
+        robot.drive(100, correction)
+    robot.stop()
+    left_motor.brake()
+    right_motor.brake()
 
+
+##Undvika kollision##
 def collision():
     obstacle_sensor = UltrasonicSensor(Port.S4)
 
