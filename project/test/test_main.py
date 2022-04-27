@@ -121,6 +121,20 @@ def collision():
             robot.straight(-150)
             robot.turn(120)
 
+### FÄRGER ###
+##Testa färg##
+def see_color():
+    color = color_sensor.color()
+    color_list = []
+    color_list.append(color)
+    print(color_list)
+    return color_list[-1]
+
+##hitta reflection
+def rgb_color():
+    färg_reflection = color_sensor.reflection()
+    print(färg_reflection)
+
 
 #RÖR EJ
 def main():
