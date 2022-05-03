@@ -26,7 +26,7 @@ touch_sensor = TouchSensor(Port.S1)
 color_sensor = ColorSensor(Port.S3)
 robot = DriveBase(left_motor, right_motor, wheel_diameter= 47, axle_track= 128) # Initialize the drive base.
 
-##Funktioner##
+##Funktioner## #Måste testa#
 def height(touch):
     
     height = 30 #höjd på saken man ska lyfta från
@@ -41,7 +41,7 @@ def height(touch):
         robot.turn(360) #vänd ett halvt varv
 
 
-##Följa linje##
+##Följa linje## #Klar#
 def line_follow():
     # Initialize the color sensor.
     color_sensor = ColorSensor(Port.S3)
@@ -50,7 +50,7 @@ def line_follow():
     WHITE = 85
     threshold = (BLACK + WHITE) / 2
 
-    DRIVE_SPEED = 100
+    DRIVE_SPEED = 50
     PROPORTIONAL_GAIN = 1.2
 
     while True:
@@ -62,16 +62,20 @@ def line_follow():
 
         wait(10)
 
-##Undvika Kollision
+        if touch_sensor.pressed() == True:
+            pickup(touch_sensor, color_sensor)
+
+#Undvika Kollision
         while obstacle_sensor.distance() < 400:
             wait(10)
             print(obstacle_sensor.distance())
             robot.straight(-150)
             robot.turn(120)
-
+            print('Undviker kollision')
         
+
     
-##Left the specified area##
+#Left the specified area## 
 def area(color_sensor, color):
     color = color_sensor
     if color == 'Green':
@@ -83,8 +87,9 @@ def area(color_sensor, color):
     elif color == 'Yellow':
         loc = 'Ring'
     print("Robot is currently at",loc)
-##Plocka upp##
 
+
+#Plocka upp## #Klar#
 def pickup(touch_sensor, color_sensor):
     if touch_sensor.pressed() == True:
         motorA.run(200)
@@ -98,17 +103,7 @@ def pickup(touch_sensor, color_sensor):
     #kolla så att 'pressed' är True under diverse funktioner
 
 
-##Follow line 2##
-def lft():
-    while robot.distance() >= 1000:
-        correction = (30 - color_sensor.reflection())*2
-        robot.drive(100, correction)
-    robot.stop()
-    left_motor.brake()
-    right_motor.brake()
-
-
-##Undvika kollision##
+##Undvika kollision## #Funkar och är implementerad i line_follow#
 def collision():
     obstacle_sensor = UltrasonicSensor(Port.S4)
 
@@ -121,7 +116,23 @@ def collision():
             robot.straight(-150)
             robot.turn(120)
 
+##Follow line 2##
+def lft():
+    while robot.distance() >= 1000:
+        correction = (30 - color_sensor.reflection())*2
+        robot.drive(100, correction)
+    robot.stop()
+    left_motor.brake()
+    right_motor.brake()
+
+
+
 ### FÄRGER ###
+#blå 27<r<39, 31<g<36, 81<b<97
+#cirkelgrön 21<r<51, 17<g<40, 18<b<84
+#lila 23<r<34, 15<g<25, 66<b<88
+#grön 13<r<49, 38<g<61, 31<b<92
+
 ##Testa färg##
 def see_color():
     color = color_sensor.color()
