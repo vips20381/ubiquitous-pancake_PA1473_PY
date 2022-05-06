@@ -66,7 +66,7 @@ def line_follow():
             pickup(touch_sensor, color_sensor)
 
 #Undvika Kollision
-        while obstacle_sensor.distance() < 400:
+        while obstacle_sensor.distance() < 170:
             wait(10)
             print(obstacle_sensor.distance())
             robot.straight(-150)
@@ -154,3 +154,31 @@ def main():
 if __name__ == '__main__':
     sys.exit(main())
 
+#----------idéer efter andra presentationen---------------
+#den ska pipa olika antal gånger när den utför en uppgift, så att det 'talar' om det för oss
+
+##rena funktioner
+def just_pickup(touch_sensor):
+    motorA.run(-200)
+    while touch_sensor.pressed() == False:
+        robot.drive(50,0)
+        if touch_sensor.pressed() == True:
+            motorA.run(200)
+            robot.drive(-50,0)
+        if touch_sensor.pressed() == False:
+            print("Det upplockade obejektet har tappats")
+            
+
+def just_collision():
+    obstacle_sensor = UltrasonicSensor(Port.S4)
+    robot.drive(50,0)
+    while obstacle_sensor.distance() > 170:
+        ev3.speaker.beep()
+        wait(20)
+        robot.drive(-50,0)
+        robot.turn(120)
+
+
+
+        
+            
