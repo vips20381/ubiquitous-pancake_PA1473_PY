@@ -27,18 +27,18 @@ color_sensor = ColorSensor(Port.S3)
 robot = DriveBase(left_motor, right_motor, wheel_diameter= 47, axle_track= 128) # Initialize the drive base.
 
 ##Funktioner## #Måste testa#
-def height(touch):
+def height():
+    motorA.run_angle(200, 90, then = Stop.HOLD, wait = True)
+    #while touch_sensor.pressed() == False:
+    robot.drive(-75,0)
+    if touch_sensor.pressed() == True:
+        ev3.speaker.say('Picking up an item')
+        motorA.run_angle(500, 180, then = Stop.HOLD, wait = True)
+        robot.drive(50,0)
     
-    height = 30 #höjd på saken man ska lyfta från
-
-    while touch.pressed == False:
-        motorA.run(height)
-        a = robot.straight()
-        touch = True
-    while touch == True:
-        motorA.run(10)
-        robot.straight(-(a+30))
-        robot.turn(360) #vänd ett halvt varv
+        
+    elif touch_sensor.pressed() == False:
+        print("Det upplockade obejektet har tappats")
 
 
 ##Följa linje## #Klar#
@@ -159,24 +159,32 @@ if __name__ == '__main__':
 
 ##rena funktioner
 def just_pickup(touch_sensor):
-    motorA.run(-200)
-    while touch_sensor.pressed() == False:
-        robot.drive(50,0)
+    #motorA.run_angle(-500, 90, then = Stop.HOLD, wait = True)
+    #while touch_sensor.pressed() == False:
+    while True:
+        robot.drive(-75,0)
         if touch_sensor.pressed() == True:
-            motorA.run(200)
-            robot.drive(-50,0)
+            ev3.speaker.say('Picked up an item')
+            motorA.run_angle(500, 180, then = Stop.HOLD, wait = True)
+            robot.drive(50,0)
+            break
+    
         if touch_sensor.pressed() == False:
             print("Det upplockade obejektet har tappats")
             
 
-def just_collision():
+def collision():
     obstacle_sensor = UltrasonicSensor(Port.S4)
-    robot.drive(50,0)
-    while obstacle_sensor.distance() > 170:
-        ev3.speaker.beep()
-        wait(20)
-        robot.drive(-50,0)
-        robot.turn(120)
+
+    while True:
+        robot.drive(-100, 0)
+        print(obstacle_sensor.distance())
+        while obstacle_sensor.distance() < 200:
+            ev3.speaker.say('Avoided an collision')
+            wait(10)
+            print(obstacle_sensor.distance())
+            robot.straight(50)
+            robot.turn(120)
 
 
 
